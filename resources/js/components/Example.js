@@ -93,6 +93,10 @@ class Example extends React.Component {
         var lbl = months[date.getMonth()] + " " + date.getFullYear()
         var i = 0;
         var calendar = [];
+        var days_ = [] ;
+        let from = ''
+        let to = ''
+        let name = ''
      
         for ( i = 0 ; i < num_of_days ; i++ ) {
 
@@ -104,14 +108,17 @@ class Example extends React.Component {
            
 
             if(!(Object.keys(object).length === 0 && object.constructor === Object)) {
-                var date_from = new Date(object['date_from']);
-                var date_to = new Date(object['date_to']);
+                var date_from = new Date(object['date_from'])
+                var date_to = new Date(object['date_to'])
+                from = object['date_from']
+                to = object['date_to']
+                days_ = object['days'].split(",")
+                name = object['event_name']
                 var ii = i+1;
 
                 if (( ii >= date_from.getDate() ) && ( ii <= date_to.getDate() )) {
-                    var days_ = object['days'].split(",");
                     if(days_.indexOf(days[dd.getDay()]) !== -1 ) {
-                        obj['event_name'] = object['event_name'];
+                        obj['event_name'] = object['event_name']
                     }
                 }
             }
@@ -119,9 +126,19 @@ class Example extends React.Component {
             calendar.push(obj)
         }   
 
+        let day = this.state.days
+        day.forEach(item => {
+            if(days_.indexOf(item.value) !== -1 ) 
+            item.isChecked = true
+         })
+
         this.setState({
             data: calendar,
-            selectedDate: lbl
+            selectedDate: lbl,
+            from: from,
+            to: to,
+            eventName: name,
+            days: day
         })
     }
 
@@ -178,7 +195,7 @@ class Example extends React.Component {
                             <Form.Row id="formGridCheckbox">
                                 {this.state.days.map(item =>(
                                      <Col xs="auto" key={item.id} className="my-1">
-                                         <Form.Check type="checkbox" value={item.value} label={item.value} onChange={this.handleCheckBoxChange}/>
+                                         <Form.Check type="checkbox" checked={item.isChecked} value={item.value} label={item.value} onChange={this.handleCheckBoxChange}/>
                                     </Col>
                                 )
                                 )}

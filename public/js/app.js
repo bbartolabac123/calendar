@@ -68589,6 +68589,10 @@ var Example = /*#__PURE__*/function (_React$Component) {
       var lbl = months[date.getMonth()] + " " + date.getFullYear();
       var i = 0;
       var calendar = [];
+      var days_ = [];
+      var from = '';
+      var to = '';
+      var name = '';
 
       for (i = 0; i < num_of_days; i++) {
         var d = i + 1;
@@ -68600,11 +68604,13 @@ var Example = /*#__PURE__*/function (_React$Component) {
         if (!(Object.keys(object).length === 0 && object.constructor === Object)) {
           var date_from = new Date(object['date_from']);
           var date_to = new Date(object['date_to']);
+          from = object['date_from'];
+          to = object['date_to'];
+          days_ = object['days'].split(",");
+          name = object['event_name'];
           var ii = i + 1;
 
           if (ii >= date_from.getDate() && ii <= date_to.getDate()) {
-            var days_ = object['days'].split(",");
-
             if (days_.indexOf(days[dd.getDay()]) !== -1) {
               obj['event_name'] = object['event_name'];
             }
@@ -68614,9 +68620,17 @@ var Example = /*#__PURE__*/function (_React$Component) {
         calendar.push(obj);
       }
 
+      var day = this.state.days;
+      day.forEach(function (item) {
+        if (days_.indexOf(item.value) !== -1) item.isChecked = true;
+      });
       this.setState({
         data: calendar,
-        selectedDate: lbl
+        selectedDate: lbl,
+        from: from,
+        to: to,
+        eventName: name,
+        days: day
       });
     }
   }, {
@@ -68698,6 +68712,7 @@ var Example = /*#__PURE__*/function (_React$Component) {
           className: "my-1"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_3__["default"].Check, {
           type: "checkbox",
+          checked: item.isChecked,
           value: item.value,
           label: item.value,
           onChange: _this4.handleCheckBoxChange
