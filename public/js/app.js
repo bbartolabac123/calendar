@@ -68533,12 +68533,6 @@ var Example = /*#__PURE__*/function (_React$Component) {
       var target = event.target;
       var value = target.value;
       var name = target.name;
-
-      if (name == 'from') {
-        var n = new Date(value);
-        this.getCalendarData(n);
-      }
-
       this.setState(_defineProperty({}, name, value));
     }
   }, {

@@ -38,11 +38,6 @@ class Example extends React.Component {
         const value = target.value;
         const name = target.name;
         
-        if (name == 'from') {
-            var n = new Date(value)
-            this.getCalendarData(n)
-        }
-
         this.setState({
           [name]: value
         });
